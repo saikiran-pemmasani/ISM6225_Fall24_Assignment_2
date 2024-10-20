@@ -56,193 +56,192 @@ namespace Assignment_2
             int fibonacciNumber = Fibonacci(n);
             Console.WriteLine(fibonacciNumber);
     }
-        // Question 1: Find Missing Numbers in Array
-        public static IList<int> FindMissingNumbers(int[] nums)
+        // Question 1: Find Missing Number in Array
+public static IList<int> FindMissingNumbers(int[] nums)
+{
+    try
+    {
+        List<int> total = new List<int>(); // Initialize a list to store missing numbers
+        for (int i = 0; i < nums.Length; i++)
         {
-            try
+            int val = Math.Abs(nums[i]) - 1; // Calculate the index to mark
+            if (nums[val] > 0)
             {
-                List<int> total = new List<int>();
-                for (int i = 0; i < nums.Length; i++)
-                {
-                    int val = Math.Abs(nums[i]) - 1;
-                    if (nums[val] > 0)
-                    {
-                        nums[val] = -nums[val];
-                    }
-                }
-                for (int i = 0; i < nums.Length; i++)
-                {
-                    if (nums[i] > 0)
-                    {
-                        total.Add(i + 1);
-                    }
-                }
-                return total;
-            }
-            catch (Exception)
-            {
-                throw;
+                nums[val] = -nums[val]; // Mark the number as seen by making it negative
             }
         }
- 
-        // Question 2: Sort Array by Parity
-        public static int[] SortArrayByParity(int[] nums)
+        for (int i = 0; i < nums.Length; i++)
         {
-            try
+            if (nums[i] > 0)
             {
-                int[] total = new int[nums.Length];
-                int Index_even = 0;
-                int Index_odd = nums.Length - 1;
- 
-                foreach (int num in nums)
-                {
-                    if (num % 2 == 0)
-                    {
-                        total[Index_even++] = num;
-                    }
-                    else
-                    {
-                        total[Index_odd--] = num;
-                    }
-                }
-                return total;
-            }
-            catch (Exception)
-            {
-                throw;
+                total.Add(i + 1); // If a number is positive, it means i+1 is missing
             }
         }
- 
-        // Question 3: Two Sum
-        public static int[] TwoSum(int[] nums, int target)
+        return total; // Return the list of missing numbers
+    }
+    catch (Exception)
+    {
+        throw; // Re-throw any caught exception
+    }
+}
+
+// Question 2: Sort Array by Parity
+public static int[] SortArrayByParity(int[] nums)
+{
+    try
+    {
+        int[] total = new int[nums.Length]; // Create a new array to store the sorted result
+        int Index_even = 0; // Index for even numbers (start of the array)
+        int Index_odd = nums.Length - 1; // Index for odd numbers (end of the array)
+
+        foreach (int num in nums)
         {
-            try
+            if (num % 2 == 0)
             {
-                Dictionary<int, int> map = new Dictionary<int, int>();
-                for (int i = 0; i < nums.Length; i++)
-                {
-                    int needed = target - nums[i];
-                    if (map.ContainsKey(needed))
-                    {
-                        return new int[] { map[needed], i };
-                    }
-                    map[nums[i]] = i;
-                }
-                return new int[0];
+                total[Index_even++] = num; // Place even numbers at the beginning
             }
-            catch (Exception)
+            else
             {
-                throw;
+                total[Index_odd--] = num; // Place odd numbers at the end
             }
         }
- 
-        // Question 4: Find Maximum Product of Three Numbers
-        public static int MaximumProduct(int[] nums)
+        return total; // Return the sorted array
+    }
+    catch (Exception)
+    {
+        throw; // Re-throw any caught exception
+    }
+}
+
+// Question 3: Two Sum
+public static int[] TwoSum(int[] nums, int target)
+{
+    try
+    {
+        Dictionary<int, int> map = new Dictionary<int, int>(); // Create a dictionary to store number-index pairs
+        for (int i = 0; i < nums.Length; i++)
         {
-            try
+            int needed = target - nums[i]; // Calculate the complement needed
+            if (map.ContainsKey(needed))
             {
-                Array.Sort(nums);
-                int elemetLength = nums.Length;
-                return Math.Max(nums[elemetLength - 1] * nums[elemetLength - 2] * nums[elemetLength - 3], nums[0] * nums[1] * nums[elemetLength - 1]);
+                return new int[] { map[needed], i }; // If complement found, return the indices
             }
-            catch (Exception)
+            map[nums[i]] = i; // Add current number and its index to the dictionary
+        }
+        return new int[0]; // Return empty array if no solution found
+    }
+    catch (Exception)
+    {
+        throw; // Re-throw any caught exception
+    }
+}
+
+// Question 4: Find Maximum Product of Three Numbers
+public static int MaximumProduct(int[] nums)
+{
+    try
+    {
+        Array.Sort(nums); // Sort the array in ascending order
+        int elemetLength = nums.Length;
+        // Return the maximum of (product of three largest numbers) and (product of two smallest and the largest number)
+        return Math.Max(nums[elemetLength - 1] * nums[elemetLength - 2] * nums[elemetLength - 3], nums[0] * nums[1] * nums[elemetLength - 1]);
+    }
+    catch (Exception)
+    {
+        throw; // Re-throw any caught exception
+    }
+}
+
+// Question 5: Decimal to Binary Conversion
+public static string DecimalToBinary(int decimalNumber)
+{
+    try
+    {
+        if (decimalNumber == 0) return "0"; // Special case for 0
+        string binary = "";
+        while (decimalNumber > 0)
+        {
+            binary = (decimalNumber % 2) + binary; // Prepend the remainder to the binary string
+            decimalNumber /= 2; // Divide the number by 2
+        }
+        return binary; // Return the binary representation
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error in DecimalToBinary: " + ex.Message);
+        throw; // Re-throw the exception after logging
+    }
+}
+
+// Question 6: Find Minimum in Rotated Sorted Array
+public static int FindMin(int[] nums)
+{
+    try
+    {
+        int left = 0;
+        int right = nums.Length - 1;
+        while (left < right)
+        {
+            int middle = (left + right) / 2; // Calculate the middle index
+            if (nums[middle] > nums[right])
             {
-                throw;
+                left = middle + 1; // Minimum is in the right half
+            }
+            else
+            {
+                right = middle; // Minimum is in the left half or at middle
             }
         }
- 
-        // Question 5: Decimal to Binary Conversion
-        public static string DecimalToBinary(int decimalNumber)
+        return nums[left]; // Return the minimum element
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error in FindMin: " + ex.Message);
+        throw; // Re-throw the exception after logging
+    }
+}
+
+// Question 7: Palindrome Number
+public static bool IsPalindrome(int x)
+{
+    try
+    {
+        if (x < 0) return false; // Negative numbers are not palindromes
+        int org = x, rev = 0;
+        while (x > 0)
         {
-            try
-            {
-                if (decimalNumber == 0) return "0";
-                string binary = "";
-                while (decimalNumber > 0)
-                {
-                    binary = (decimalNumber % 2) + binary;
-                    decimalNumber /= 2;
-                }
-                return binary;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error in DecimalToBinary: " + ex.Message);
-                throw;
-            }
+            int digit = x % 10; // Get the last digit
+            rev = rev * 10 + digit; // Build the reversed number
+            x /= 10; // Remove the last digit from x
         }
- 
-        // Question 6: Find Minimum in Rotated Sorted Array
-        public static int FindMin(int[] nums)
+        return org == rev; // Check if the original number equals its reverse
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error in IsPalindrome: " + ex.Message);
+        throw; // Re-throw the exception after logging
+    }
+}
+
+// Question 8: Fibonacci Number
+public static int Fibonacci(int n)
+{
+    try
+    {
+        if (n == 0) return 0; // Base case for n = 0
+        if (n == 1) return 1; // Base case for n = 1
+        int x = 0, y = 1;
+        for (int i = 2; i <= n; i++)
         {
-            try
-            {
-                int left = 0;
-                int right = nums.Length - 1;
-                while (left < right)
-                {
-                    int middle = (left + right) / 2;
-                    if (nums[middle] > nums[right])
-                    {
-                        left = middle + 1;
-                    }
-                    else
-                    {
-                        right = middle;
-                    }
-                }
-                return nums[left];
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error in FindMin: " + ex.Message);
-                throw;
-            }
+            int temp = x + y; // Calculate next Fibonacci number
+            x = y; // Update x to previous y
+            y = temp; // Update y to new Fibonacci number
         }
- 
-        // Question 7: Palindrome Number
-        public static bool IsPalindrome(int x)
-        {
-            try
-            {
-                if (x < 0) return false;
-                int org = x, rev = 0;
-                while (x > 0)
-                {
-                    int digit = x % 10;
-                    rev = rev * 10 + digit;
-                    x /= 10;
-                }
-                return org == rev;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error in IsPalindrome: " + ex.Message);
-                throw;
-            }
-        }
- 
-        // Question 8: Fibonacci Number
-        public static int Fibonacci(int n)
-        {
-            try
-            {
-                if (n == 0) return 0;
-                if (n == 1) return 1;
-                int x = 0, y = 1;
-                for (int i = 2; i <= n; i++)
-                {
-                    int temp = x + y;
-                    x = y;
-                    y = temp;
-                }
-                return y;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error in Fibonacci: " + ex.Message);
-                throw;
-            }
-        }
-    }
+        return y; // Return the nth Fibonacci number
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error in Fibonacci: " + ex.Message);
+        throw; // Re-throw the exception after logging
+    }
 }
